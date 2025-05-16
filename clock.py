@@ -1,4 +1,7 @@
 import time 
+from datetime import datetime
+import pytz
+
 
 def intro():
     print("\nClock App - V1\n\nFeatures:\n1.Timer\n2.Stopwatch\n3.World Clock\n4.Alarm\n")
@@ -45,6 +48,20 @@ def timer(timer_ammount):
 
     print("\nTimer finished!")
     pass
+
+
+def stopwatch():
+    pass
+
+def world_clock():
+    #For now, 3 Timezones: Porto, Australia (Melbourne), Los Angeles 
+    tz_porto = 
+    timezones={
+        'Porto, Portugal': 
+        'Los Angeles, USA'
+        'Melbourne, Australia'
+        
+    
 
 def main():
     intro() # Na teoria, isto nao precisava de ser uma funcao...
