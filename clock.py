@@ -64,6 +64,8 @@ def world_clock():
         time_in_zone = datetime.now(tz)
         # print(f"The time in {city} is {time_in_zone}.")
         print(f"The time in {city} is {time_in_zone.strftime('%m-%d %H:%M:%S')}.")
+    print('')   
+    pass
 
 def main():
     intro() # Na teoria, isto nao precisava de ser uma funcao...
