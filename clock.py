@@ -1,7 +1,6 @@
 import time 
-from datetime import datetime
-import pytz
-
+import zoneinfo
+from datetime import datetime, timezone
 
 def intro():
     print("\nClock App - V1\n\nFeatures:\n1.Timer\n2.Stopwatch\n3.World Clock\n4.Alarm\n")
@@ -16,7 +15,7 @@ def intro_stopwatch():
     pass
 
 def intro_worldclock():
-    print("\nWorld Clock\n\nAvailable time scales:\n1.Hour\n2.Minutes\n3.Seconds\n")
+    print("\nWorld Clock\n")
     pass
 
 def intro_alarm():
@@ -49,19 +48,22 @@ def timer(timer_ammount):
     print("\nTimer finished!")
     pass
 
-
 def stopwatch():
     pass
 
 def world_clock():
     #For now, 3 Timezones: Porto, Australia (Melbourne), Los Angeles 
-    tz_porto = 
     timezones={
-        'Porto, Portugal': 
-        'Los Angeles, USA'
-        'Melbourne, Australia'
-        
+        'Porto, Portugal': "Europe/Lisbon" ,
+        'Los Angeles, USA': "America/Los_Angeles",
+        'Melbourne, Australia': "Australia/Melbourne" 
+}
     
+    for city, tz_name in timezones.items():
+        tz = zoneinfo.ZoneInfo(tz_name)
+        time_in_zone = datetime.now(tz)
+        # print(f"The time in {city} is {time_in_zone}.")
+        print(f"The time in {city} is {time_in_zone.strftime('%m-%d %H:%M:%S')}.")
 
 def main():
     intro() # Na teoria, isto nao precisava de ser uma funcao...
@@ -77,6 +79,7 @@ def main():
 
     elif feature_select == "3":
         intro_worldclock()
+        world_clock()
 
     elif feature_select == "4":
         intro_alarm()
