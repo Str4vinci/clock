@@ -1,6 +1,8 @@
 import time 
 import zoneinfo
 from datetime import datetime, timezone
+import sys
+import select
 
 def intro():
     print("\nClock App - V1\n\nFeatures:\n1.Timer\n2.Stopwatch\n3.World Clock\n4.Alarm\n")
@@ -11,7 +13,7 @@ def intro_timer():
     pass
 
 def intro_stopwatch():
-    print("\nStopwatch\n\nAvailable time scales:\n1.Hour\n2.Minutes\n3.Seconds\n")
+    print("\nStopwatch\n")
     pass
 
 def intro_worldclock():
@@ -49,7 +51,46 @@ def timer(timer_ammount):
     pass
 
 def stopwatch():
-    pass
+    # print("Please press Enter to start the stopwatch. When you want to stop, press Enter again!")
+    input("Press Enter to start!")
+    stopwatch_start_time = time.time()
+
+    print("Stopwatch Started. Press Enter again to stop.")
+    
+    while True:
+        elapsed_time = time.time() - stopwatch_start_time
+        stopwatch_display_time(elapsed_time)
+        time.sleep(0.1)
+
+        if stopwatch_is_enter_pressed():
+            break
+    
+    print("\nStopwatch stopped.")
+    stopwatch_display_time(elapsed_time, final=True)
+
+def stopwatch_display_time(sec, final=False):
+    mins = int(sec // 60)
+    hours = int(mins // 60)
+    mins = mins % 60
+    sec = round(sec % 60, 1)
+
+    formatted_time = f"{hours:02}:{mins:02}:{sec:03.1f}"
+    
+    
+    if final:
+        print(f"Time Lapsed = {formatted_time}")
+    else:
+        print(f"\rTime Lapsed = {formatted_time}", end="", flush=True)
+
+def stopwatch_is_enter_pressed():
+    # import sys
+    # import select
+    # Estes imports aqui dão delay e fazem com que a mensagem não apareça imediatamente...
+
+    if select.select([sys.stdin], [], [], 0)[0]:
+        sys.stdin.read(1)  # Consume the Enter key
+        return True
+    return False
 
 def world_clock():
     #For now, 3 Timezones: Porto, Australia (Melbourne), Los Angeles 
@@ -78,6 +119,7 @@ def main():
         timer(timer_ammount)
     elif feature_select == "2":
         intro_stopwatch()
+        stopwatch()
 
     elif feature_select == "3":
         intro_worldclock()
