@@ -1,6 +1,6 @@
 import time 
 import zoneinfo
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import sys
 import select
 
@@ -21,7 +21,7 @@ def intro_worldclock():
     pass
 
 def intro_alarm():
-    print("\nAlarm\n\nAvailable time scales:\n1.Hour\n2.Minutes\n3.Seconds\n")
+    print("\nAlarm\n")
     pass
 
 def conv_time_scale_to_seconds(time_scale, t):
@@ -108,6 +108,31 @@ def world_clock():
     print('')   
     pass
 
+def alarm(set_alarm):
+    current_time = datetime.now()
+    today_date = datetime.now().date()
+    alarm_time = datetime.strptime(set_alarm,"%H:%M").time()
+    alarm_datetime = datetime.combine(today_date, alarm_time)
+    if alarm_datetime < current_time:
+        alarm_datetime += timedelta(days=1) 
+    timeleft = alarm_datetime - current_time
+    while timeleft.total_seconds() > 0:
+        current_time = datetime.now()
+        timeleft = alarm_datetime - current_time
+        total_seconds = int(timeleft.total_seconds())
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        print(f"Time left: {hours:02}:{minutes:02}:{seconds:02}", end="\r")
+        #print(f"Time left: {timeleft}", end="\r")
+        time.sleep(1)
+
+    print("\nAlarm!")
+
+    pass 
+    
+
+
+
 def main():
     intro() # Na teoria, isto nao precisava de ser uma funcao...
     feature_select= (input("Please select the feature: "))
@@ -127,6 +152,10 @@ def main():
 
     elif feature_select == "4":
         intro_alarm()
+        set_alarm = input("Please set the timer (for example, 23:30): ") 
+        #time_scale = input("Please select the time scale: ")
+        #timer_ammount = conv_time_scale_to_seconds(time_scale,t)
+        alarm(set_alarm)
 
     else:
         raise ValueError("Error: Input not valid")
